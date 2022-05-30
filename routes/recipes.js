@@ -1,30 +1,36 @@
 const router = require("express").Router();
 
-const mockData = require("./data.json");
+const mockData = require("../data.json");
 const data = mockData.recipes
 
 module.exports = (db) => {
-  router.get("/recipes", (req, res) => {
+  router.get("/", (req, res) => {
+
     const recipeNames = [];
 
     for (recipe of data) {
       recipeNames.push(recipe.name)
     }
-    res.json({recipeNames});
+    return res.json({recipeNames});
   })
 
-  router.get("/recipes/details/:recipe", (req, res, next) => {
+  router.get("/details/:recipe", (req, res) => {
 
-    const ingredients = data.filter(rec => rec.name === req.params.recipe).map(obj => obj.ingredients)[0]
+    try {
+      const ingredients = data.filter(rec => rec.name === req.params.recipe).map(obj => obj.ingredients)[0]
 
-    const steps = data.filter(rec => rec.name === req.params.recipe).map(obj => obj.instructions.length)[0]
+      const steps = data.filter(rec => rec.name === req.params.recipe).map(obj => obj.instructions.length)[0]
 
-    const details = { ingredients, numSteps: steps }
+      const details = { ingredients, numSteps: steps }
 
-    res.json(details);
+      res.json(details);
 
-    next(createError(200));
+    } catch (error) {
+      // Send status 200 if recipe does NOT exist
+      res.sendStatus(200);
+    }
 
   })
 
-}
+  return router;
+};
