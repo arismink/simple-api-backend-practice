@@ -1,17 +1,17 @@
 const router = require("express").Router();
 
+const res = require("express/lib/response");
 const mockData = require("../data.json");
 const data = mockData.recipes
 
-module.exports = (db) => {
+module.exports = () => {
   router.get("/", (req, res) => {
-
     const recipeNames = [];
 
     for (recipe of data) {
       recipeNames.push(recipe.name)
     }
-    return res.json({recipeNames});
+    res.json({recipeNames});
   })
 
   router.get("/details/:recipe", (req, res) => {
@@ -27,14 +27,19 @@ module.exports = (db) => {
         details.numSteps = obj.instructions.length;
       });
 
-      res.json(details);
+      res.json({details});
 
     } catch (error) {
       // Send status 200 if recipe does NOT exist
       res.sendStatus(200);
     }
 
+  });
+
+  router.post("/", (req, res) => {
+    console.log('res!:', res);
   })
+
 
   return router;
 };
