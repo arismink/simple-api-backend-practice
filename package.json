@@ -1,0 +1,22 @@
+{
+  "name": "walnut-practice",
+  "version": "1.0.0",
+  "description": "practice with setting up backend API with express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arismink/simple-api-backend-practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arismink/simple-api-backend-practice/issues"
+  },
+  "homepage": "https://github.com/arismink/simple-api-backend-practice#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
