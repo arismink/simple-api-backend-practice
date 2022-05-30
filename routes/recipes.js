@@ -12,6 +12,7 @@ module.exports = () => {
       recipeNames.push(recipe.name)
     }
     res.json({recipeNames});
+    console.log(recipeNames)
   })
 
   router.get("/details/:recipe", (req, res) => {
@@ -28,6 +29,7 @@ module.exports = () => {
       });
 
       res.json({details});
+      console.log(details);
 
     } catch (error) {
       // Send status 200 if recipe does NOT exist
@@ -37,7 +39,11 @@ module.exports = () => {
   });
 
   router.post("/", (req, res) => {
-    console.log('res!:', res);
+    res.json(req.body);
+    console.log('req!:', req.body);
+    res.end
+
+
   })
 
 
