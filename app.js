@@ -10,8 +10,18 @@ app.get("/url", (req, res, next) => {
 })
 
 app.get("/recipes", (req, res, next) => {
+  // return object named recipeNames
+  // object should contain all recipeNames
 
-  res.json(mockData);
+  // const recipeNames = Object.values(mockData.name)
+  const recipeNames = [];
+  const data = mockData.recipes
+
+  for (recipe of data) {
+    recipeNames.push(recipe.name)
+  }
+
+  res.json({recipeNames});
 })
 
 app.listen(3000, () => {
