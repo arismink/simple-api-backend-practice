@@ -1,14 +1,15 @@
 const express = require("express");
 const app = express();
 
+// Middleware
+const bodyParser = require("body-parser");
+
 // Routes
 const recipeRouter = require("./routes/recipes")
 
-// simple GET request that returns a list of users
-// use /url to trigger callback return json data
-app.get("/url", (req, res, next) => {
-  res.json(["Tony", "Lisa", "Michael", "Ginger", "Food"]);
-})
+// configure app to use middleware
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 
 app.use("/recipes", recipeRouter());
 
