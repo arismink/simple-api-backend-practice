@@ -17,11 +17,15 @@ module.exports = (db) => {
   router.get("/details/:recipe", (req, res) => {
 
     try {
-      const ingredients = data.filter(rec => rec.name === req.params.recipe).map(obj => obj.ingredients)[0]
+      const details = {
+        ingredients: [],
+        numSteps: ""
+      };
 
-      const steps = data.filter(rec => rec.name === req.params.recipe).map(obj => obj.instructions.length)[0]
-
-      const details = { ingredients, numSteps: steps }
+      data.filter(rec => rec.name === req.params.recipe).map(obj => {
+        details.ingredients = obj.ingredients;
+        details.numSteps = obj.instructions.length;
+      });
 
       res.json(details);
 
