@@ -1,6 +1,5 @@
 const router = require("express").Router();
 
-const res = require("express/lib/response");
 const mockData = require("../data/data.json");
 const data = mockData.recipes
 
