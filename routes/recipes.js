@@ -4,7 +4,7 @@ const res = require("express/lib/response");
 const mockData = require("../data/data.json");
 const data = mockData.recipes
 
-const { recipeCheck } = require("../helpers/data-helpers")
+const { recipeCheck, saveRecipe, updateRecipe } = require("../helpers/data-helpers")
 
 module.exports = () => {
   // return an array of recipe names
@@ -14,7 +14,7 @@ module.exports = () => {
     for (recipe of data) {
       recipeNames.push(recipe.name)
     }
-    res.json({recipeNames});
+    res.json({recipeNames}).status(200);
   })
 
   // return ingredients and # of steps if recipe exists
@@ -30,7 +30,7 @@ module.exports = () => {
         details.numSteps = obj.instructions.length;
       });
 
-      res.json({details});
+      res.json({details}).status(200);
 
     } catch (e) {
       // Send status 200 if recipe does NOT exist
@@ -42,12 +42,14 @@ module.exports = () => {
   // add new recipe in postData
   router.post("/", (req, res) => {
     try {
-      // Check if recipe already exists
-      if (recipeCheck(req.body, true)) {
+      // Check if recipe already exists. Throw error if it does
+      if (recipeCheck(req.body)) {
         throw Error('Recipe already exists!')
       }
 
-      res.json(req.body)
+      // Recipe does not exist, add it to recipe list
+      saveRecipe(req.body);
+      res.json(req.body).status(201)
 
     } catch(e) {
       // set status code, print error message
@@ -58,9 +60,15 @@ module.exports = () => {
 
   router.put("/", (req, res) => {
     try {
-      if (recipeCheck(req.body, false) === false) {
+      // Check if recipe exists. If it does not exist, throw error
+      if (recipeCheck(req.body) === false) {
         throw Error('Recipe does not exist!')
       }
+
+      // if recipe exists, allow update
+      updateRecipe(req.body)
+      res.send(req.body).status(204)
+
     } catch(e) {
       res.status(404).send({error: e.message})
     }
