@@ -7,27 +7,20 @@ const recipeCheck = (recipe, save) => {
   if (data.some(d => d.name === recipe.name)) {
     return true
   }
-
-  // If need to save
-  if (save) {
-    // if recipe does not exist, push it
-    saveRecipe(recipe)
-    return console.log("added!")
-  } else {
-
-    updateRecipe(recipe);
-    return console.log("updated!")
-  }
-
   return false
 }
 
+// add new recipe
 const saveRecipe = (recipe) => {
   data.push(recipe);
 }
 
+// update existing recipe
 const updateRecipe = (recipe) => {
+  const index = data.findIndex(obj => obj.name === recipe.name);
+
+  data[index] = recipe;
 
 }
 
-module.exports = { recipeCheck };
+module.exports = { recipeCheck, saveRecipe, updateRecipe };
