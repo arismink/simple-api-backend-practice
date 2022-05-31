@@ -2,19 +2,32 @@
 const mockData = require("../data/data.json");
 const data = mockData.recipes
 
-const recipeCheck = (recipe) => {
+const recipeCheck = (recipe, save) => {
   // Check if recipe already exists
   if (data.some(d => d.name === recipe.name)) {
-    return false
+    return true
   }
 
-  // if recipe does not exist, push it
-  saveRecipe(recipe)
-  return console.log("awesome!")
+  // If need to save
+  if (save) {
+    // if recipe does not exist, push it
+    saveRecipe(recipe)
+    return console.log("added!")
+  } else {
+
+    updateRecipe(recipe);
+    return console.log("updated!")
+  }
+
+  return false
 }
 
 const saveRecipe = (recipe) => {
   data.push(recipe);
+}
+
+const updateRecipe = (recipe) => {
+
 }
 
 module.exports = { recipeCheck };
