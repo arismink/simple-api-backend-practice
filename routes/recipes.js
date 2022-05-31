@@ -1,9 +1,9 @@
 const router = require("express").Router();
 
-const mockData = require("../data.json");
+const mockData = require("../data/data.json");
 const data = mockData.recipes
 
-const { recipeCheck, saveRecipe } = require("../helpers/data-helpers")
+const { recipeCheck } = require("../helpers/data-helpers")
 
 module.exports = () => {
   router.get("/", (req, res) => {
@@ -13,7 +13,6 @@ module.exports = () => {
       recipeNames.push(recipe.name)
     }
     res.json({recipeNames});
-    console.log(recipeNames)
   })
 
   router.get("/details/:recipe", (req, res) => {
@@ -30,7 +29,6 @@ module.exports = () => {
       });
 
       res.json({details});
-      console.log(details);
 
     } catch (e) {
       // Send status 200 if recipe does NOT exist
@@ -42,7 +40,6 @@ module.exports = () => {
   router.post("/", (req, res) => {
 
     try {
-      console.log('data retrieved:', req.body);
 
       // Check if recipe already exists
       if (recipeCheck(req.body) === false) {
