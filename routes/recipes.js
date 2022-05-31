@@ -1,8 +1,9 @@
 const router = require("express").Router();
 
-const res = require("express/lib/response");
 const mockData = require("../data.json");
 const data = mockData.recipes
+
+const { recipeCheck, saveRecipe } = require("../helpers/data-helpers")
 
 module.exports = () => {
   router.get("/", (req, res) => {
@@ -31,7 +32,7 @@ module.exports = () => {
       res.json({details});
       console.log(details);
 
-    } catch (error) {
+    } catch (e) {
       // Send status 200 if recipe does NOT exist
       res.sendStatus(200);
     }
@@ -39,9 +40,21 @@ module.exports = () => {
   });
 
   router.post("/", (req, res) => {
-    res.json(req.body);
-    console.log('req!:', req.body);
-    res.end
+
+    try {
+      console.log('data retrieved:', req.body);
+
+      // Check if recipe already exists
+      if (recipeCheck(req.body) === false) {
+        throw Error('Recipe already exists!')
+      }
+
+      res.json(req.body)
+
+    } catch(e) {
+      // set status code, print error message
+      res.status(400).send({ error: e.message})
+    }
 
 
   })
